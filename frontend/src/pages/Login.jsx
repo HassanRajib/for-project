@@ -16,10 +16,10 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try{
-            const response = await axios.post()
+            const response = await axios.post('http://localhost:3001/auth/Login', values)
             if (response.status === 201){
                 localStorage.setItem('token', response.data.token)
-                navigate('/')
+                navigate('/Home')
             }
         }catch (err){
             console.log(err.response ? err.response.data.message : "no account found")
