@@ -17,7 +17,7 @@ const SignIn = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try{
-            const response = await axios.post('http://localhost:3001/auth/', values)
+            const response = await axios.post('http://localhost:3002/auth/', values)
             if(response.status === 201){
                 navigate('/Login')
             }

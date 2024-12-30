@@ -16,7 +16,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try{
-            const response = await axios.post('http://localhost:3001/auth/Login', values)
+            const response = await axios.post('http://localhost:3002/auth/Login', values)
             if (response.status === 201){
                 localStorage.setItem('token', response.data.token)
                 navigate('/Home')
