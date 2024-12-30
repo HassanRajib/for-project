@@ -28,9 +28,11 @@ const SignIn = () => {
 
 
   return (
-    <div className='flex justify-center items-center h-screen'>
-        <div className='shadow-lg px-8 py-5 border w-90'>
-            <h2 className='text-lg font-bold mb-4'>Signup</h2>
+    <section className="min-h-screen flex items-center justify-center font-mono bg-gradient-to-r from-orange-300 from-10% via-slate-400 via-60% to-sky-600 to-80%">
+  <div className="flex shadow-2xl">
+    <div className="flex flex-col items-center justify-center text-center p-20 gap-8 bg-white rounded-2xl">
+      <div className="flex flex-col text-2xl text-left gap-1">
+        <h2 className='text-lg font-bold mb-4'>Signup</h2>
             <form onSubmit={handleSubmit}>
                 <div className='mb-4'>
                     <label htmlFor='username' className='block text-gray-700'>Username</label>
@@ -47,14 +49,17 @@ const SignIn = () => {
                     <input type="password" placeholder='password' className='w-full px-3 py-2 border'
                     name='password' onChange={handleChanges}/>
                 </div>
-                <button className='w-full bg-sky-600 text-black py-2'>Submit</button>
+                
             </form>
+            <button className="px-10 py-3 text-2xl bg-gradient-to-tr from-green-400 to-purple-200 hover:from-slate-500 hover:to-yellow-200 rounded-full text-black">Signup</button>
             <div className='text-center'>
                 <span>Already have an Account! </span>
                 <Link to='/login' className='text-orange-600'>Login</Link>
             </div>
-        </div>
+      </div>
     </div>
+  </div>
+</section>
   )
 }
 

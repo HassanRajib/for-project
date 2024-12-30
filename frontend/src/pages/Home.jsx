@@ -8,10 +8,16 @@ import FolOpn from '@mui/icons-material/FolderOpen'
 import Card from '../img/card.png'
 import formIcon from '../img/form.png'
 import Dcard from '../img/image.png'
-
+import { useNavigate } from 'react-router-dom';
+import { v4 as Uuid } from 'uuid';
 
 function Home() {
 
+  const history = useNavigate()
+  const createForm = () =>{
+  const id = Uuid()
+  history (`/Qus/${id}`)
+  }
 
 
 
@@ -43,7 +49,7 @@ function Home() {
           </div>
         </div>
         <div className='template_body mx-40 flex items-center'>
-          <div className='card ml-5 mt-4'>
+          <div className='card ml-5 mt-4' onClick={createForm}>
             <img src={Card} alt='no' className='card_im h-30 w-36 cursor-pointer rounded-md border-[0.2px] border-white hover:border-1 hover:border-purple-800' />
             <p className='card_ti text-center'>card1</p>
           </div>
