@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route }from 'react-router-dom'
 import SignIn from './pages/SignIn'
 import Login from './pages/Login'
 import Home from './pages/Home'
+import Qus from './pages/Qus'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/' element={<SignIn/>}></Route>
         <Route path='/Login' element={<Login/>}></Route>
         <Route path='/Home' element={<Home/>}></Route>
+        <Route path='/Qus' element={<Qus/>}></Route>
       </Routes>
     </BrowserRouter>
   )
