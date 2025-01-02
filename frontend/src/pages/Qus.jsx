@@ -17,27 +17,12 @@ import {
   Subject as SubIcon,
   Radio as RadioIcon,
   Close as CloseIcon,
-  Feedback as FeedbackIcon,
+  Delete as DeleteIcon,
 } from "@mui/icons-material";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 function Question() {
-  const [questions, setQuestions] = useState([
-    {
-      qusText: "What is the capital city of Bangladesh?",
-      qusType: "radio",
-      options: [
-        { optionText: "Dhaka" },
-        { optionText: "Chittagong" },
-        { optionText: "Sylhet" },
-        { optionText: "Khulna" },
-      ],
-      feedback: "",
-      answerKey: "",
-      open: true,
-      required: false,
-    },
-  ]);
+  const [questions, setQuestions] = useState([]);
 
   const handleQuestionChange = (text, index) => {
     const updatedQuestions = [...questions];
@@ -79,15 +64,30 @@ function Question() {
     setQuestions(updatedQuestions);
   };
 
-  const setFeedback = (feedback, qIndex) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[qIndex].feedback = feedback;
+  const deleteQuestion = (index) => {
+    const updatedQuestions = questions.filter((_, i) => i !== index);
     setQuestions(updatedQuestions);
   };
 
-  const saveQuestions = () => {
-    console.log("Saving questions to backend:", questions);
-    alert("Questions saved successfully!");
+  const saveQuestions = async () => {
+    try {
+      const response = await fetch("http://localhost:3002/saveQuestions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ questions }),
+      });
+
+      if (response.ok) {
+        alert("Questions saved successfully!");
+      } else {
+        alert("Failed to save questions.");
+      }
+    } catch (error) {
+      console.error("Error saving questions:", error);
+      alert("An error occurred while saving.");
+    }
   };
 
   const renderQuestions = () =>
@@ -105,6 +105,12 @@ function Question() {
                 <Typography className="font-semibold">
                   {i + 1}. {ques.qusText}
                 </Typography>
+                <IconButton
+                  onClick={() => deleteQuestion(i)}
+                  className="ml-2 text-red-600"
+                >
+                  <DeleteIcon />
+                </IconButton>
               </AccordionSummary>
               <AccordionDetails>
                 <Input
@@ -165,13 +171,6 @@ function Question() {
                 >
                   Add Option
                 </Button>
-                <Input
-                  type="text"
-                  value={ques.feedback}
-                  onChange={(e) => setFeedback(e.target.value, i)}
-                  placeholder="Add Feedback"
-                  className="w-full mt-2 border border-gray-300 rounded px-2 py-1"
-                />
               </AccordionDetails>
             </Accordion>
           </div>
@@ -212,10 +211,9 @@ function Question() {
             setQuestions([
               ...questions,
               {
-                qusText: "New Question",
+                qusText: "",
                 qusType: "radio",
                 options: [{ optionText: "Option 1" }],
-                feedback: "",
                 answerKey: "",
                 open: true,
                 required: false,
