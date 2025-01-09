@@ -1,6 +1,6 @@
 import express from 'express'
 import { conTOData } from '../lib/db.js';
-import bctypt from 'bcrypt'
+import bcrypt from 'bcrypt'
 import JWT from 'jsonwebtoken'
 
 const router = express.Router()
@@ -10,12 +10,12 @@ router.post('/', async (req, res)=> {
     try {
         const db = await conTOData()
         const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email])
-        if (rows.lenght > 0) {
+        if (rows.length > 0) {
             return res.status(409).json({message: "you r a not new"})
         }
 
-        const hashPass = await bctypt.hash(password, 10)
-        await db.query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+        const hashPass = await bcrypt.hash(password, 10)
+        await db.query("INSERT INTO users (uname, email, password) VALUES (?, ?, ?)",
             [username, email, hashPass])
 
             res.status(201).json({message: "WelCome Home"})
@@ -33,7 +33,7 @@ router.post('/Login', async (req, res)=> {
             return res.status(404).json({message: "you r not"})
         }
 
-        const isMatch = await bctypt.compare(password, rows[0].password)
+        const isMatch = await bcrypt.compare(password, rows[0].password)
         if(!isMatch) {
             return res.status(401).json({message: "wrong password"})
         }
@@ -47,7 +47,7 @@ router.post('/Login', async (req, res)=> {
 
 const verifyToken = (req, res, next) => {
     try {
-        const token = req.headers['authorization'].split('')[1];
+        const token = req.headers['authorization']?.split('')[1];
         if (!token) {
             return res.status(403).json({message: 'ntp'})
         }
